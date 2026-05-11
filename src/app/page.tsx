@@ -13,8 +13,26 @@ import Footer from "@/components/Footer";
 import Cart from "@/components/Cart";
 import Checkout from "@/components/Checkout";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import SizeGuide from "@/components/SizeGuide";
+import TrackOrder from "@/components/TrackOrder";
+import ShippingPolicy from "@/components/ShippingPolicy";
+import ReturnExchange from "@/components/ReturnExchange";
+import FAQs from "@/components/FAQs";
+import PrivacyPolicy from "@/components/PrivacyPolicy";
+import TermsOfService from "@/components/TermsOfService";
+import Careers from "@/components/Careers";
 
-type Page = "home" | "checkout";
+type Page =
+  | "home"
+  | "checkout"
+  | "size-guide"
+  | "track-order"
+  | "shipping-policy"
+  | "return-exchange"
+  | "faqs"
+  | "privacy-policy"
+  | "terms-of-service"
+  | "careers";
 
 function AppContent() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -24,14 +42,26 @@ function AppContent() {
     return <LoginPage onLogin={() => setIsLoggedIn(true)} />;
   }
 
-  if (currentPage === "checkout") {
+  const goHome = () => setCurrentPage("home");
+
+  // Pages without cart/footer
+  const subPages: Record<string, React.ReactNode> = {
+    checkout: <Checkout onBack={goHome} />,
+    "size-guide": <SizeGuide onBack={goHome} />,
+    "track-order": <TrackOrder onBack={goHome} />,
+    "shipping-policy": <ShippingPolicy onBack={goHome} />,
+    "return-exchange": <ReturnExchange onBack={goHome} />,
+    faqs: <FAQs onBack={goHome} />,
+    "privacy-policy": <PrivacyPolicy onBack={goHome} />,
+    "terms-of-service": <TermsOfService onBack={goHome} />,
+    careers: <Careers onBack={goHome} />,
+  };
+
+  if (currentPage !== "home" && subPages[currentPage]) {
     return (
       <>
-        <Navbar
-          onCartClick={() => {}}
-          onLogoClick={() => setCurrentPage("home")}
-        />
-        <Checkout onBack={() => setCurrentPage("home")} />
+        <Navbar onCartClick={() => {}} onLogoClick={goHome} />
+        {subPages[currentPage]}
         <WhatsAppButton />
       </>
     );
@@ -39,16 +69,13 @@ function AppContent() {
 
   return (
     <>
-      <Navbar
-        onCartClick={() => {}}
-        onLogoClick={() => setCurrentPage("home")}
-      />
+      <Navbar onCartClick={() => {}} onLogoClick={goHome} />
       <HeroBanner />
       <FeaturedProducts />
       <NewArrivals />
       <AboutUs />
       <CustomerReviews />
-      <Footer />
+      <Footer onNavigate={(page) => setCurrentPage(page as Page)} />
       <Cart onCheckout={() => setCurrentPage("checkout")} />
       <WhatsAppButton />
     </>
