@@ -14,6 +14,10 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
+  // Set your login credentials here
+  const VALID_EMAIL = "admin@luxora.com";
+  const VALID_PASSWORD = "Luxora@2024";
+
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     setError("");
@@ -26,7 +30,11 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
-      onLogin();
+      if (email === VALID_EMAIL && password === VALID_PASSWORD) {
+        onLogin();
+      } else {
+        setError("Invalid email or password");
+      }
     }, 1200);
   };
 
