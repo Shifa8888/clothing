@@ -3,7 +3,7 @@
 export default function WhatsAppButton() {
   return (
     <a
-      href="https://wa.me/923001234567?text=Hi%20Luxora!%20I%20have%20a%20question%20about%20your%20products."
+      href="https://wa.me/923286503324?text=Hi%20Luxora!%20I%20have%20a%20question%20about%20your%20products."
       target="_blank"
       rel="noopener noreferrer"
       className="fixed bottom-6 right-6 z-40 group"
