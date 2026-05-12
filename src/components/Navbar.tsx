@@ -8,6 +8,7 @@ import {
   Search,
   User,
   Heart,
+  ChevronDown,
 } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 
@@ -20,6 +21,9 @@ export default function Navbar({ onCartClick, onLogoClick }: NavbarProps) {
   const { totalItems, setIsOpen } = useCart();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [categoriesOpen, setCategoriesOpen] = useState(false);
+
+  const categories = ["Men", "Women", "Kids", "Accessories"];
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -55,6 +59,30 @@ export default function Navbar({ onCartClick, onLogoClick }: NavbarProps) {
 
             {/* Desktop Nav */}
             <div className="hidden md:flex items-center gap-8">
+              <div className="relative">
+                <button
+                  onClick={() => setCategoriesOpen(!categoriesOpen)}
+                  className="text-sm text-gray-300 hover:text-amber-400 transition-colors duration-300 tracking-wider uppercase font-medium flex items-center gap-1"
+                >
+                  Categories <ChevronDown className="w-4 h-4" />
+                </button>
+                {categoriesOpen && (
+                  <div className="absolute top-full left-0 mt-2 bg-white text-gray-900 rounded-lg shadow-lg py-2">
+                    {categories.map((category) => (
+                      <button
+                        key={category}
+                        onClick={() => {
+                          setCategoriesOpen(false);
+                          console.log(`Selected category: ${category}`);
+                        }}
+                        className="block px-4 py-2 text-sm hover:bg-gray-100 w-full text-left"
+                      >
+                        {category}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
               {navLinks.map((link) => (
                 <a
                   key={link}
